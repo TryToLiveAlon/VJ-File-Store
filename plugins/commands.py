@@ -15,7 +15,7 @@ from plugins.users_api import get_user, update_user_info
 from plugins.database import get_file_details
 from pyrogram.errors import ChatAdminRequired, FloodWait
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message, CallbackQuery, InputMediaPhoto
-from config import Var, LOG_CHANNEL, PICS, BATCH_FILE_CAPTION, CUSTOM_FILE_CAPTION, AUTO_DELETE_TIME, AUTO_DELETE, ADMINS
+from config import Var, LOG_CHANNEL, PICS, BATCH_FILE_CAPTION, CUSTOM_FILE_CAPTION, AUTO_DELETE_TIME, AUTO_DELETE, ADMINS, BOT_TOKEN
 import re
 import json
 import base64
@@ -58,8 +58,8 @@ async def delete_after_delay(message: Message, delay):
 async def start(client, message):
     async def start(client, message):
     user_id = message.from_user.id
-    chat_id = -1001525395841  # The chat ID of your channel
-    bot_token = Var.BOT_TOKEN  # Your bot token from the config
+    chat_id =  -1002239078679,-1002047318388 # The chat ID of your channel
+    bot_token = BOT_TOKEN  # Your bot token from the config
 
     # Step 1: Make a request to the API to check if the user has joined the channel
     api_url = f"https://api.jobians.top/telegram/getChatMember.php?bot_token={bot_token}&user_id={user_id}&chat_id={chat_id}"
@@ -69,7 +69,8 @@ async def start(client, message):
     # Step 2: Check the response from the API
     if data.get("status") == "true" and not data.get("is_joined"):
         join_button = InlineKeyboardMarkup([[
-            InlineKeyboardButton('Join Channel', url='https://t.me/joinchat/YOUR_CHANNEL_LINK')
+            InlineKeyboardButton('Join Channel', url='https://t.me/joinchat/YOUR_CHANNEL_LINK'),
+            InlineKeyboardButton('Join Channel', url='https://t.me/joinchat/YOUR_CHANNEL_LINK'),
         ]])
         await message.reply("Please join the channel to use the bot.", reply_markup=join_button)
         return
