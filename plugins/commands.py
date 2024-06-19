@@ -67,7 +67,6 @@ async def start(client, message):
     if data.get("status") == "true" and not data.get("is_joined"):
         join_button = InlineKeyboardMarkup([[
             InlineKeyboardButton('Join Channel', url='https://t.me/+fD8vidfvpOI3YjNl'),
-            InlineKeyboardButton('Join Channel', url='https://t.me/+uFu4EnuZ97liOGVl'),
         ]])
         await message.reply("Please join the channel to use the bot.", reply_markup=join_button)
         return
