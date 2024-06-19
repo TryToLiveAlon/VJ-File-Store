@@ -57,9 +57,8 @@ async def delete_after_delay(message: Message, delay):
 @Client.on_message(filters.command("start") & filters.incoming)
 async def start(client, message):
     user_id = message.from_user.id
-    chat_id =  -1002239078679,-1002047318388 # The chat ID of your channel
-    bot_token = BOT_TOKEN  # Your bot token from the config
-
+    chat_id = -1002239078679, -1002047318388
+    bot_token = BOT_TOKEN
     # Step 1: Make a request to the API to check if the user has joined the channel
     api_url = f"https://api.jobians.top/telegram/getChatMember.php?bot_token={bot_token}&user_id={user_id}&chat_id={chat_id}"
     response = requests.get(api_url)
