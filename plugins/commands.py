@@ -56,7 +56,7 @@ async def delete_after_delay(message: Message, delay):
 @Client.on_message(filters.command("start") & filters.incoming)
 async def start(client, message):
     user_id = message.from_user.id
-    chat_id = -1001525395841  # The chat ID of your channel
+    chat_id = -1002239078679 # The chat ID of your channel
     bot_token = BOT_TOKEN  # Your bot token from the config
 
     # Step 1: Make a request to the API to check if the user has joined the channel
