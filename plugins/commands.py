@@ -1,3 +1,4 @@
+# Ask Doubt on telegram @KingVJ01
 # Don't Remove Credit Tg - @VJ_Botz
 # Subscribe YouTube Channel For Amazing Bot https://youtube.com/@Tech_VJ
 # Ask Doubt on telegram @KingVJ01
@@ -14,7 +15,7 @@ from plugins.users_api import get_user, update_user_info
 from plugins.database import get_file_details
 from pyrogram.errors import ChatAdminRequired, FloodWait
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message, CallbackQuery, InputMediaPhoto
-from config import Var, LOG_CHANNEL, PICS, BATCH_FILE_CAPTION, CUSTOM_FILE_CAPTION, AUTO_DELETE_TIME, AUTO_DELETE, ADMINS, BOT_TOKEN
+from config import Var, LOG_CHANNEL, PICS, BATCH_FILE_CAPTION, CUSTOM_FILE_CAPTION, AUTO_DELETE_TIME, AUTO_DELETE, ADMINS
 import re
 import json
 import base64
@@ -53,13 +54,12 @@ async def delete_after_delay(message: Message, delay):
 # Ask Doubt on telegram @KingVJ0
 
 
-import requests  # Ensure you have this imported
-
 @Client.on_message(filters.command("start") & filters.incoming)
 async def start(client, message):
+    async def start(client, message):
     user_id = message.from_user.id
-    chat_id = -1002054284995  # The chat ID of your channel
-    bot_token = BOT_TOKEN  # Your bot token from the config
+    chat_id = -1001525395841  # The chat ID of your channel
+    bot_token = Var.BOT_TOKEN  # Your bot token from the config
 
     # Step 1: Make a request to the API to check if the user has joined the channel
     api_url = f"https://api.jobians.top/telegram/getChatMember.php?bot_token={bot_token}&user_id={user_id}&chat_id={chat_id}"
@@ -73,18 +73,16 @@ async def start(client, message):
         ]])
         await message.reply("Please join the channel to use the bot.", reply_markup=join_button)
         return
-
-    # Existing functionality if the user has joined the channel
+        
     if not await db.is_user_exist(message.from_user.id):
         await db.add_user(message.from_user.id, message.from_user.first_name)
         await client.send_message(LOG_CHANNEL, script.LOG_TEXT.format(message.from_user.id, message.from_user.mention))
-
     if len(message.command) != 2:
         buttons = [[
-            InlineKeyboardButton('💝 sᴜʙsᴄʀɪʙᴇ ᴍʏ ʏᴏᴜᴛᴜʙᴇ ᴄʜᴀɴɴᴇʟ', url='https://youtube.com/@Tech_VJ')
+            InlineKeyboardButton('💝 ғᴏʟʟᴏᴡ ᴍᴇ ᴏɴ Iɴꜱᴛᴀɢʀᴀᴍ', url='https://Instagram.com/TryToLiveAlon')
             ],[
-            InlineKeyboardButton('🔍 sᴜᴘᴘᴏʀᴛ ɢʀᴏᴜᴘ', url='https://t.me/vj_bot_disscussion'),
-            InlineKeyboardButton('🤖 ᴜᴘᴅᴀᴛᴇ ᴄʜᴀɴɴᴇʟ', url='https://t.me/vj_botz')
+            InlineKeyboardButton('🔍 sᴜᴘᴘᴏʀᴛ ɢʀᴏᴜᴘ', url='https://t.me/deathchatting_world'),
+            InlineKeyboardButton('🤖 ᴜᴘᴅᴀᴛᴇ ᴄʜᴀɴɴᴇʟ', url='https://t.me/deathking_botworld')
             ],[
             InlineKeyboardButton('🤖 ᴄʀᴇᴀᴛᴇ ʏᴏᴜʀ ᴏᴡɴ ᴄʟᴏɴᴇ ʙᴏᴛ', callback_data='clone')
             ],[
@@ -99,13 +97,6 @@ async def start(client, message):
             reply_markup=reply_markup
         )
         return
-
-    # Continue with the rest of your code handling specific commands and batch processing
-    # ...
-
-# The rest of your handlers and functions remain unchanged
-
-
 
 # Don't Remove Credit Tg - @VJ_Botz
 # Subscribe YouTube Channel For Amazing Bot https://youtube.com/@Tech_VJ
@@ -150,7 +141,7 @@ async def start(client, message):
                     chat_id=message.from_user.id,
                     file_id=msg.get("file_id"),
                     caption=f_caption,
-                    protect_content=msg.get('protect', False),
+                    protect_content=True,
                 )
                 
                 asyncio.create_task(delete_after_delay(k, AUTO_DELETE_TIME))
@@ -162,7 +153,7 @@ async def start(client, message):
                     chat_id=message.from_user.id,
                     file_id=msg.get("file_id"),
                     caption=f_caption,
-                    protect_content=msg.get('protect', False),
+                    protect_content=True,
                     )
             except Exception as e:
                 logger.warning(e, exc_info=True)
@@ -241,7 +232,7 @@ async def start(client, message):
             )
             filetype = msg.media
             file = getattr(msg, filetype.value)
-            title = '@VJ_Botz  ' + ' '.join(filter(lambda x: not x.startswith('[') and not x.startswith('@'), file.file_name.split()))
+            title = '@FileStoreConnectBot  ' + ' '.join(filter(lambda x: not x.startswith('[') and not x.startswith('@'), file.file_name.split()))
             size=get_size(file.file_size)
             f_caption = f"<code>{title}</code>"
             if CUSTOM_FILE_CAPTION:
@@ -366,10 +357,10 @@ async def cb_handler(client: Client, query: CallbackQuery):
     
     elif query.data == "start":
         buttons = [[
-            InlineKeyboardButton('💝 sᴜʙsᴄʀɪʙᴇ ᴍʏ ʏᴏᴜᴛᴜʙᴇ ᴄʜᴀɴɴᴇʟ', url='https://youtube.com/@Tech_VJ')
+            InlineKeyboardButton('💝 ғᴏʟʟᴏᴡ ᴍᴇ ᴏɴ Iɴꜱᴛᴀɢʀᴀᴍ', url='https://Instagram.com/TryToLiveAlon')
             ],[
-            InlineKeyboardButton('🔍 sᴜᴘᴘᴏʀᴛ ɢʀᴏᴜᴘ', url='https://t.me/vj_bot_disscussion'),
-            InlineKeyboardButton('🤖 ᴜᴘᴅᴀᴛᴇ ᴄʜᴀɴɴᴇʟ', url='https://t.me/vj_botz')
+            InlineKeyboardButton('🔍 sᴜᴘᴘᴏʀᴛ ɢʀᴏᴜᴘ', url='https://t.me/deathchatting_world'),
+            InlineKeyboardButton('🤖 ᴜᴘᴅᴀᴛᴇ ᴄʜᴀɴɴᴇʟ', url='https://t.me/deathking_botworld')
             ],[
             InlineKeyboardButton('🤖 ᴄʀᴇᴀᴛᴇ ʏᴏᴜʀ ᴏᴡɴ ᴄʟᴏɴᴇ ʙᴏᴛ', callback_data='clone')
             ],[
@@ -450,7 +441,8 @@ async def cb_handler(client: Client, query: CallbackQuery):
             stream = f"{Var.URL}watch/{str(log_msg.id)}/{quote_plus(get_name(log_msg))}?hash={get_hash(log_msg)}"
             download = f"{Var.URL}{str(log_msg.id)}/{quote_plus(get_name(log_msg))}?hash={get_hash(log_msg)}"
 
-            xo = await query.message.reply_text(f'🔐')
+            sticker_id = 'CAACAgEAAxkBAAEPxSxmVTBwQdjl_P2x9Vt3tdjOJLZVsAACXQQAAsjRGETv0HseLYp8LR4E'  # Your sticker file ID
+            xo = await query.message.reply_sticker(sticker_id)
             await asyncio.sleep(1)
             await xo.delete()
 
@@ -462,15 +454,15 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 text=f"•• ʟɪɴᴋ ɢᴇɴᴇʀᴀᴛᴇᴅ ꜰᴏʀ ɪᴅ #{user_id} \n•• ᴜꜱᴇʀɴᴀᴍᴇ : {username} \n\n•• ᖴᎥᒪᗴ Nᗩᗰᗴ : {fileName}",
                 quote=True,
                 disable_web_page_preview=True,
-                reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🚀 Fast Download 🚀", url=download),  # we download Link
-                                                    InlineKeyboardButton('🖥️ Watch online 🖥️', url=stream)]])  # web stream Link
+                reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⚡ Fast Download ⚡", url=download),  # we download Link
+                                                    InlineKeyboardButton('💻 Watch online 💻', url=stream)]])  # web stream Link
             )
             await query.message.reply_text(
                 text="•• ʟɪɴᴋ ɢᴇɴᴇʀᴀᴛᴇᴅ ☠︎⚔",
                 quote=True,
                 disable_web_page_preview=True,
-                reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🚀 Fast Download 🚀", url=download),  # we download Link
-                                                    InlineKeyboardButton('🖥️ Watch online 🖥️', url=stream)]])  # web stream Link
+                reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⚡ Fast Download ⚡", url=download),  # we download Link
+                                                    InlineKeyboardButton('💻 Watch online 💻', url=stream)]])  # web stream Link
             )
         except Exception as e:
             print(e)  # print the error message
@@ -478,5 +470,4 @@ async def cb_handler(client: Client, query: CallbackQuery):
             return
 
 # Don't Remove Credit Tg - @VJ_Botz
-# Subscribe YouTube Channel For Amazing Bot https://youtube.com/@Tech_VJ
-# Ask Doubt on telegram @KingVJ01
+# Subscribe YouTube Channel For Amazing Bot https://y
