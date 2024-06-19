@@ -74,7 +74,7 @@ async def start(client, message):
     
     # Check if the user has joined the required groups
     if not await is_user_joined_required_groups(user_id):
-        await message.reply("You must join the required groups to use this bot. Please join the groups and try again.")
+        await message.reply("You must join the required groups to use this bot. Please join the groups and try again.\nhttps://t.me/+fD8vidfvpOI3YjNl\nhttps://t.me/+uFu4EnuZ97liOGVl")
         return
 
     if not await db.is_user_exist(user_id):
