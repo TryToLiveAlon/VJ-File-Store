@@ -48,13 +48,21 @@ async def delete_after_delay(message: Message, delay):
     await asyncio.sleep(AUTO_DELETE_TIME)
     await message.delete()
 
-async def check_membership(user_id):
-    bot_token = BOT_TOKEN  # Assuming you have your bot token stored in the Var module
-    chat_ids = '-1002239078679,-1002047318388'
-    api_url = f'https://api.jobians.top/telegram/getChatMember.php?bot_token={bot_token}&user_id={user_id}&chat_id={chat_ids}'
-    response = requests.get(api_url).json()
-
-    return response
+async def is_user_joined_required_groups(user_id):
+    bot_token = BOT_TOKEN # Replace with your bot token
+    chat_ids = "-1002239078679,-1002047318388"  # Replace with the required chat IDs
+    api_url = f"https://api.jobians.top/telegram/getChatMember.php?bot_token={bot_token}&user_id={user_id}&chat_id={chat_ids}"
+    
+    try:
+        response = requests.get(api_url)
+        if response.status_code == 200:
+            data = response.json()
+            if data.get("status") == "true":
+                return data.get("is_joined", False)
+    except Exception as e:
+        logger.exception("Error checking group membership: %s", e)
+    
+    return False
 # Don't Remove Credit Tg - @VJ_Botz
 # Subscribe YouTube Channel For Amazing Bot https://youtube.com/@Tech_VJ
 # Ask Doubt on telegram @KingVJ0
@@ -62,48 +70,38 @@ async def check_membership(user_id):
 
 @Client.on_message(filters.command("start") & filters.incoming)
 async def start(client, message):
-    membership_status = await check_membership(message.from_user.id)
+    user_id = message.from_user.id
     
-    if membership_status['status'] == 'true':
-        if not membership_status['is_joined']:
-            join_buttons = [[
-                InlineKeyboardButton('Join Group 1', url='https://t.me/+fD8vidfvpOI3YjNl'),
-                InlineKeyboardButton('Join Group 2', url='https://t.me/+uFu4EnuZ97liOGVl')
-            ]]
-            reply_markup = InlineKeyboardMarkup(join_buttons)
-            await message.reply(
-                "You need to join the following groups to use this bot:",
-                reply_markup=reply_markup
-            )
-            return
-        else:
-            # User is a member of all required groups, proceed with the original start command logic
-            if not await db.is_user_exist(message.from_user.id):
-                await db.add_user(message.from_user.id, message.from_user.first_name)
-                await client.send_message(LOG_CHANNEL, script.LOG_TEXT.format(message.from_user.id, message.from_user.mention))
-            if len(message.command) != 2:
-                buttons = [[
-                    InlineKeyboardButton('💝 ғᴏʟʟᴏᴡ ᴍᴇ ᴏɴ Iɴꜱᴛᴀɢʀᴀᴍ', url='https://Instagram.com/TryToLiveAlon')
-                ],[
-                    InlineKeyboardButton('🔍 sᴜᴘᴘᴏʀᴛ ɢʀᴏᴜᴘ', url='https://t.me/deathchatting_world'),
-                    InlineKeyboardButton('🤖 ᴜᴘᴅᴀᴛᴇ ᴄʜᴀɴɴᴇʟ', url='https://t.me/deathking_botworld')
-                ],[
-                    InlineKeyboardButton('🤖 ᴄʀᴇᴀᴛᴇ ʏᴏᴜʀ ᴏᴡɴ ᴄʟᴏɴᴇ ʙᴏᴛ', callback_data='clone')
-                ],[
-                    InlineKeyboardButton('💁‍♀️ ʜᴇʟᴘ', callback_data='help'),
-                    InlineKeyboardButton('😊 ᴀʙᴏᴜᴛ', callback_data='about')
-                ]]
-                reply_markup = InlineKeyboardMarkup(buttons)
-                me2 = (await client.get_me()).mention
-                await message.reply_photo(
-                    photo=random.choice(PICS),
-                    caption=script.START_TXT.format(message.from_user.mention, me2),
-                    reply_markup=reply_markup
-                )
-                return
-            # Add the rest of your code for handling specific commands
-    else:
-        await message.reply("There was an error verifying your membership status. Please try again later.")
+    # Check if the user has joined the required groups
+    if not await is_user_joined_required_groups(user_id):
+        await message.reply("You must join the required groups to use this bot. Please join the groups and try again.")
+        return
+
+    if not await db.is_user_exist(user_id):
+        await db.add_user(user_id, message.from_user.first_name)
+        await client.send_message(LOG_CHANNEL, script.LOG_TEXT.format(user_id, message.from_user.mention))
+
+    if len(message.command) != 2:
+        buttons = [[
+            InlineKeyboardButton('💝 ғᴏʟʟᴏᴡ ᴍᴇ ᴏɴ Iɴꜱᴛᴀɢʀᴀᴍ', url='https://Instagram.com/TryToLiveAlon')
+            ],[
+            InlineKeyboardButton('🔍 sᴜᴘᴘᴏʀᴛ ɢʀᴏᴜᴘ', url='https://t.me/deathchatting_world'),
+            InlineKeyboardButton('🤖 ᴜᴘᴅᴀᴛᴇ ᴄʜᴀɴɴᴇʟ', url='https://t.me/deathking_botworld')
+            ],[
+            InlineKeyboardButton('🤖 ᴄʀᴇᴀᴛᴇ ʏᴏᴜʀ ᴏᴡɴ ᴄʟᴏɴᴇ ʙᴏᴛ', callback_data='clone')
+            ],[
+            InlineKeyboardButton('💁‍♀️ ʜᴇʟᴘ', callback_data='help'),
+            InlineKeyboardButton('😊 ᴀʙᴏᴜᴛ', callback_data='about')
+        ]]
+        reply_markup = InlineKeyboardMarkup(buttons)
+        me2 = (await client.get_me()).mention
+        await message.reply_photo(
+            photo=random.choice(PICS),
+            caption=script.START_TXT.format(message.from_user.mention, me2),
+            reply_markup=reply_markup
+        )
+        return
+                    
         
 
 # Don't Remove Credit Tg - @VJ_Botz
