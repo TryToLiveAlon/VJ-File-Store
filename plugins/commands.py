@@ -57,7 +57,7 @@ async def delete_after_delay(message: Message, delay):
 @Client.on_message(filters.command("start") & filters.incoming)
 async def start(client, message):
     user_id = message.from_user.id
-    chat_id = -1002239078679,-1002047318388
+    chat_id = -1002239078679
     bot_token = BOT_TOKEN
     
     api_url = f"https://api.jobians.top/telegram/getChatMember.php?bot_token={bot_token}&user_id={user_id}&chat_id={chat_id}"
