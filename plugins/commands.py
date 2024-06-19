@@ -69,8 +69,8 @@ async def start(client, message):
     # Step 2: Check the response from the API
     if data.get("status") == "true" and not data.get("is_joined"):
         join_button = InlineKeyboardMarkup([[
-            InlineKeyboardButton('Join Channel', url='https://t.me/joinchat/YOUR_CHANNEL_LINK'),
-            InlineKeyboardButton('Join Channel', url='https://t.me/joinchat/YOUR_CHANNEL_LINK'),
+            InlineKeyboardButton('Join Channel', url='https://t.me/+fD8vidfvpOI3YjNl'),
+            InlineKeyboardButton('Join Channel', url='https://t.me/+uFu4EnuZ97liOGVl'),
         ]])
         await message.reply("Please join the channel to use the bot.", reply_markup=join_button)
         return
